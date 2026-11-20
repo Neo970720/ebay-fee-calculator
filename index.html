@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eBay Fee &amp; Profit Calculator (2026 rates, 13 categories) — Sheetwright</title>
+<meta name="description" content="Free eBay fee calculator with 2026 US rates for 13 categories. See the final value fee, per-order fee, promoted listings and international fee — then the profit left after your cost of goods, and the price you need to hit a target margin.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#101A2B">
+<link rel="canonical" href="https://neo970720.github.io/ebay-fee-calculator/">
+<meta property="og:title" content="eBay Fee &amp; Profit Calculator — 2026 rates">
+<meta property="og:description" content="Every eBay fee on one screen: final value fee by category, per-order fee, promoted listings, international fee. Then what you actually keep.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neo970720.github.io/ebay-fee-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"eBay Fee & Profit Calculator","url":"https://neo970720.github.io/ebay-fee-calculator/","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free eBay fee calculator with 2026 US rates for 13 categories: final value fee, per-order fee, promoted listings, international fee, and the profit left after cost of goods.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Sheetwright"}}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101A2B'/%3E%3Cpath d='M9 22 13 10h3.2l-4 12zm7.4 0L20.4 10h3.2l-4 12zm-4.6-4.2h9.4l-.9 2.6h-9.4z' fill='%23E8A33D'/%3E%3C/svg%3E">
+<style>
+:root{
+  --navy:#101A2B; --ink:#182234; --body:#2B3848; --muted:#6C7A8C;
+  --line:#E2E8F0; --bg:#F6F8FB; --card:#FFFFFF; --soft:#F6F8FB;
+  --accent:#1C4FD8; --accent-soft:#E8EEFC; --amber:#A9741A; --amber-soft:#FDF5E4;
+  --red:#AF3A2C; --red-soft:#FBEBE8; --green:#0B7A63; --green-soft:#E7F2EF;
+  --input:#FFFCF2; --input-line:#D8B14A;
+  --shadow:0 1px 2px rgba(16,30,54,.06),0 8px 24px rgba(16,30,54,.06);
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --navy:#EAF0F6; --ink:#DCE5EE; --body:#B9C6D4; --muted:#8496A8;
+  --line:#22303F; --bg:#0B1420; --card:#111C2A; --soft:#0F1926;
+  --accent:#6E93F5; --accent-soft:#182545; --amber:#E0A94A; --amber-soft:#2A2314;
+  --red:#E8796A; --red-soft:#2C1917; --green:#4CC0A3; --green-soft:#14302B;
+  --input:#1A2634; --input-line:#5C4A1E;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--body);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial,"Liberation Sans","DejaVu Sans",sans-serif;
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{background:#101A2B;color:#fff;position:sticky;top:0;z-index:20}
+html[data-theme="dark"] header{background:#0A1119;border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em;font-size:12px;color:#fff}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:#E8A33D}
+.brand small{font-weight:400;letter-spacing:.02em;color:#93A7BB;text-transform:none;font-size:13px}
+.theme{font-family:inherit;background:transparent;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;
+  padding:7px 14px;font-size:12.5px;cursor:pointer;letter-spacing:.02em}
+.theme:hover{border-color:rgba(255,255,255,.5)}
+.hero{padding:52px 0 14px}
+.kicker{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin:0 0 12px}
+h1{color:var(--ink);font-size:clamp(30px,5vw,47px);line-height:1.06;letter-spacing:-.02em;margin:0 0 14px;font-weight:800}
+.lede{font-size:17.5px;color:var(--muted);max-width:660px;margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:22px;align-items:start;margin:28px 0 10px}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.card .pad{padding:22px 22px 16px}
+.card h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;font-weight:700}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input[type=number],select{font-family:inherit;width:100%;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--input);color:var(--ink);font-size:15px;font-variant-numeric:tabular-nums;
+  border-bottom:2px solid var(--input-line);outline:none;appearance:none}
+select{cursor:pointer;padding-right:34px;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236C7A8C' d='M1.4.6 6 5.2 10.6.6 12 2l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:12px}
+input[type=number]:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=range]{width:100%;accent-color:var(--accent);margin:6px 0 2px}
+.hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+.switch{display:flex;align-items:center;gap:10px;padding:8px 0}
+.switch input{width:18px;height:18px;accent-color:var(--accent)}
+.switch span{font-size:14px;color:var(--body)}
+.sep{height:1px;background:var(--line);margin:18px 0}
+.result{padding:24px}
+.your{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0}
+.big{font-size:clamp(38px,7vw,54px);font-weight:800;color:var(--ink);letter-spacing:-.03em;
+  line-height:1.03;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:700}
+.pill.ok{background:var(--green-soft);color:var(--green)}
+.pill.warn{background:var(--amber-soft);color:var(--amber)}
+.pill.bad{background:var(--red-soft);color:var(--red)}
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:16px 0 8px;background:var(--soft)}
+.bar i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-bottom:14px}
+.legend b{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+table.lines{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+table.lines td{padding:7px 0;border-bottom:1px solid var(--line);color:var(--body)}
+table.lines td:last-child{text-align:right;color:var(--ink);font-weight:600;white-space:nowrap}
+table.lines tr.grp td{color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;border-bottom:none;padding-top:14px}
+table.lines tr.sum td{border-bottom:none;padding-top:10px;font-weight:800;color:var(--ink)}
+table.lines tr.total td{border-top:2px solid var(--navy);border-bottom:none;padding-top:11px;font-weight:800;font-size:15px}
+html[data-theme="dark"] table.lines tr.total td{border-top-color:var(--line)}
+.neg{color:var(--red)!important}
+.rev{margin-top:18px;padding:16px;border-radius:12px;background:var(--soft);border:1px dashed var(--line)}
+.rev h3{margin:0 0 6px;font-size:13px;color:var(--ink)}
+.rev p{margin:0;font-size:13px;color:var(--muted)}
+.rev strong{color:var(--accent);font-size:20px;font-variant-numeric:tabular-nums}
+.store{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--accent-soft);font-size:12.5px;color:var(--body)}
+.store b{color:var(--ink)}
+.cta{margin:34px 0 10px;border-radius:18px;padding:26px;background:linear-gradient(135deg,#101A2B,#16304F);
+  color:#fff;display:flex;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cta h3{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.cta p{margin:0;color:#B7C7D6;font-size:14px;max-width:600px}
+.cta a{font-family:inherit;background:#E8A33D;color:#241A06;text-decoration:none;font-weight:800;padding:13px 22px;border-radius:10px;
+  font-size:14.5px;white-space:nowrap}
+.cta a:hover{filter:brightness(1.06)}
+.explain{margin:40px 0 0}
+.explain h2{font-size:22px;color:var(--ink);letter-spacing:-.01em;margin:0 0 10px}
+.explain p{color:var(--body);max-width:780px}
+table.rates{width:100%;border-collapse:collapse;font-size:13.5px;margin:16px 0 8px;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table.rates th{background:#101A2B;color:#fff;text-align:left;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;padding:10px 12px;font-weight:700}
+table.rates td{padding:9px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+table.rates td:first-child{font-weight:700;color:var(--ink)}
+@media(max-width:640px){
+  table.rates thead,table.rates tbody{display:block}
+  table.rates{display:block;border:none;background:transparent}
+  table.rates td{display:block;border:none;padding:1px 0}
+  table.rates tr{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:11px 14px;margin-bottom:8px}
+  table.rates td:first-child{font-size:14px;margin-bottom:2px}
+  table.rates td:nth-child(2){color:var(--muted);font-size:12.5px}
+  table.rates td:nth-child(3){color:var(--accent);font-weight:700;font-size:13px;margin-top:4px}
+  .cta{padding:20px}
+  .cta a{width:100%;text-align:center}
+  .hero{padding:32px 0 8px}
+  .card .pad{padding:18px 18px 12px}
+  .result{padding:20px 18px}
+}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
+details summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:15px}
+details p{margin:10px 0 2px;color:var(--body);font-size:14px}
+footer{margin:48px 0 0;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+footer a{color:var(--muted)}
+.tiny{font-size:12px;color:var(--muted)}
+.copy{font-family:inherit;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:7px 12px;
+  font-size:12.5px;cursor:pointer;margin-top:14px}
+.copy:hover{border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> SHEETWRIGHT <small>eBay profit tools</small></div>
+    <button class="theme" id="themeBtn" type="button">Dark</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="kicker">2026 rates · 13 categories · US (ebay.com)</p>
+    <h1>What does eBay actually pay you?</h1>
+    <p class="lede">Every fee on one screen: the final value fee for your category, the per-order fee,
+      your promoted listings rate and the international fee — then the number that reaches your bank
+      account after the item, the label and the ad.</p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <div class="pad">
+        <h2>Your order</h2>
+        <div class="field">
+          <label for="cat">Category</label>
+          <select id="cat"></select>
+          <div class="hint" id="catHint"></div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="item">Item price</label>
+            <input type="number" id="item" value="59.99" min="0" step="0.01" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="ship">Shipping charged</label>
+            <input type="number" id="ship" value="9.30" min="0" step="0.01" inputmode="decimal">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="handling">Handling charged</label>
+            <input type="number" id="handling" value="0" min="0" step="0.01" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="tax">Sales tax eBay collected</label>
+            <input type="number" id="tax" value="0" min="0" step="0.01" inputmode="decimal">
+          </div>
+        </div>
+        <div class="sep"></div>
+        <h2>Your cost</h2>
+        <div class="row">
+          <div class="field">
+            <label for="cogs">What you paid for it</label>
+            <input type="number" id="cogs" value="28" min="0" step="0.01" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="qty">Quantity</label>
+            <input type="number" id="qty" value="1" min="1" step="1" inputmode="numeric">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="pack">Prep &amp; packaging</label>
+            <input type="number" id="pack" value="1.20" min="0" step="0.01" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="label">Shipping label</label>
+            <input type="number" id="label" value="9.29" min="0" step="0.01" inputmode="decimal">
+          </div>
+        </div>
+        <div class="sep"></div>
+        <h2>This order</h2>
+        <div class="switch">
+          <input type="checkbox" id="intl">
+          <span>International buyer (adds 1.65%)</span>
+        </div>
+        <div class="field">
+          <label for="ad">Promoted Listings ad rate — <span id="adLabel">5%</span></label>
+          <input type="range" id="ad" min="0" max="25" step="0.5" value="5">
+          <div class="hint">Only paid when the item sells within 30 days of a click. Ad fees use the same total as the final value fee.</div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="plan">eBay Store plan</label>
+            <select id="plan"></select>
+          </div>
+          <div class="field">
+            <label for="target">Target net margin</label>
+            <input type="number" id="target" value="30" min="0" max="95" step="1" inputmode="numeric">
+          </div>
+        </div>
+        <div class="hint" id="planHint"></div>
+      </div>
+    </section>
+
+    <section class="card result">
+      <p class="your">You keep</p>
+      <div class="big" id="keep">—</div>
+      <p class="sub" id="keepSub"></p>
+      <span class="pill ok" id="verdict">—</span>
+
+      <div class="bar" id="bar">
+        <i id="bFees" style="background:#A9B9CC"></i>
+        <i id="bCosts" style="background:#E8A33D"></i>
+        <i id="bProfit" style="background:#1C4FD8;flex:1"></i>
+      </div>
+      <div class="legend">
+        <span><b style="background:#A9B9CC"></b>eBay fees <span id="lgFees"></span></span>
+        <span><b style="background:#E8A33D"></b>Your cost <span id="lgCosts"></span></span>
+        <span><b style="background:#1C4FD8"></b>Profit <span id="lgProfit"></span></span>
+      </div>
+
+      <table class="lines" id="lines"></table>
+
+      <div class="rev">
+        <h3>To keep a <span id="tgtLabel">30%</span> margin, list at</h3>
+        <p><strong id="priceForTarget">—</strong> <span id="priceForTargetNote"></span></p>
+        <p style="margin-top:8px">Highest ad rate that still clears your target: <strong id="maxAd" style="font-size:15px">—</strong></p>
+      </div>
+
+      <div class="store" id="storeBox"></div>
+      <button class="copy" id="copyBtn" type="button">Copy this breakdown</button>
+    </section>
+  </div>
+
+  <section class="cta">
+    <div>
+      <h3>Doing this for every order, every month?</h3>
+      <p>eBay True Profit OS turns your orders report into per-order profit, a monthly dashboard, a store-verdict
+        line and a quarterly tax reserve — with these same 2026 rates, inside Excel or Google Sheets. $24, once.</p>
+    </div>
+    <a id="ctaLink" href="https://sheetwrightstudio.gumroad.com/l/ebay-true-profit-os-2026" rel="noopener">Get the spreadsheet →</a>
+  </section>
+
+  <section class="explain">
+    <h2>How eBay's fees work in 2026</h2>
+    <p>eBay does not charge one fee. On a normal US sale it charges a final value fee set by category, a
+      per-order fee, and — if you advertise or sell abroad — a promoted listings fee and an international
+      fee. This calculator uses the rates published on eBay's own selling-fees page on
+      <strong>20 November 2026</strong>; the full table, with sources, is in the paid workbook's Fee Watch sheet.</p>
+    <table class="rates">
+      <thead><tr><th>Fee</th><th>What it is charged on</th><th>2026 US rate</th></tr></thead>
+      <tbody>
+        <tr><td>Final value fee</td><td>Total amount of the sale: item + handling + shipping + sales tax</td><td>13.6% to $7,500, then 2.35% — 15.3% for books and media, 13.25% for cards and coins, 6.7% for guitars</td></tr>
+        <tr><td>Per-order fee</td><td>Each order, not each item</td><td>$0.30 up to $10.00, $0.40 above</td></tr>
+        <tr><td>Promoted Listings</td><td>Total amount of the sale, when it sells within 30 days of a click</td><td>Your ad rate, 2%–100%</td></tr>
+        <tr><td>International fee</td><td>Orders delivered or registered outside the US</td><td>1.65%</td></tr>
+        <tr><td>Insertion fee</td><td>Each listing after 250 free ones a month</td><td>$0.35</td></tr>
+        <tr><td>Store subscription</td><td>Monthly, whatever you sell</td><td>$7.95 to $2,999.95</td></tr>
+      </tbody>
+    </table>
+    <p class="tiny">Two things most calculators get wrong. Sales tax is inside the fee base — eBay charges its
+      percentage on the tax it collected. And a category is either marginal or whole-amount: jewelry is
+      15% of the <em>whole</em> sale at $5,000 or less and 9% of the whole sale above it, so $5,000.01 pays
+      $300 less than $5,000.00.</p>
+  </section>
+
+  <section class="explain">
+    <h2>Questions</h2>
+    <details><summary>Why is the fee higher than 13.6% + $0.40?</summary>
+      <p>Because the final value fee is charged on the shipping the buyer paid as well as the item, and the
+      ad rate is charged on that same total. On a $59.99 item with $9.30 shipping and a 5% ad rate, the
+      final value fee is $9.42, the per-order fee $0.40 and the ad fee $3.46 — $13.28, or 19.2% of what
+      the buyer paid.</p></details>
+    <details><summary>My category is not in the list.</summary>
+      <p>The thirteen here cover what resellers actually sell. eBay publishes a rate for every leaf
+      category on its selling-fees page; pick the closest one above and treat the number as an estimate,
+      or change the rate in the paid workbook's Fee Watch sheet, where the whole file follows.</p></details>
+    <details><summary>Is jewelry really cheaper above $5,000?</summary>
+      <p>Yes. Jewelry (watches excluded) is whole-amount: 15% of the entire sale at $5,000 or less, and
+      9% of the entire sale above it. Crossing the line by one cent drops the fee by about $300. It is the
+      only US category that pays you to raise the price.</p></details>
+    <details><summary>What about store subscription fees?</summary>
+      <p>This tool shows the rate card a Store unlocks and what it saves on this one order — it does not
+      charge the subscription to the order. In the paid workbook the subscription is counted against the
+      fee savings across all your orders, which is the only way to know whether the Store pays for itself.</p></details>
+    <details><summary>Does the shipping I charge count as revenue?</summary>
+      <p>Yes, and it is feeable. eBay charges its final value fee on shipping, so "free shipping" you absorb
+      is a real cost on top of the label.</p></details>
+    <details><summary>How current are the rates?</summary>
+      <p>Read from eBay's selling-fees, store-fees and promoted-listings pages on 20 November 2026.
+      eBay can change them at any time — your payment account statement is always the final word.</p></details>
+  </section>
+
+  <footer>
+    <p>Built by Sheetwright · <a href="https://sheetwrightstudio.gumroad.com/l/ebay-true-profit-os-2026" rel="noopener">eBay True Profit OS</a>
+      · US rates verified 20 November 2026</p>
+    <p class="tiny">Not affiliated with, endorsed by, or sponsored by eBay Inc. "eBay" is a trademark of
+      eBay Inc. This calculator is an estimate, not accounting or tax advice.</p>
+  </footer>
+</main>
+
+<script>
+const RATES = {"verified":"2026-11-20","intl":0.0165,"fx":0.0325,"perOrderThreshold":10.0,"insertion":0.35,"freeListings":250,"adsMin":0.02,"adsMax":1.0,"plans":[{"name":"None","monthly":0.0,"yearly":0.0,"listings":250,"store":false},{"name":"Starter","monthly":7.95,"yearly":4.95,"listings":250,"store":false},{"name":"Basic","monthly":27.95,"yearly":21.95,"listings":1000,"store":true},{"name":"Premium","monthly":74.95,"yearly":59.95,"listings":10000,"store":true},{"name":"Anchor","monthly":349.95,"yearly":299.95,"listings":25000,"store":true},{"name":"Enterprise","monthly":null,"yearly":2999.95,"listings":50000,"store":true}],"categories":[{"key":"MOST","name":"Most categories","mode":"marginal","ns":[[7500,0.136],[null,0.0235]],"st":[[2500,0.127],[null,0.0235]],"po":[0.3,0.4],"note":"Clothing, electronics, home, toys, auto parts, vinyl records, musical instruments other than guitars."},{"key":"MEDIA","name":"Books, Movies & TV, Music","mode":"marginal","ns":[[7500,0.153],[null,0.0235]],"st":[[2500,0.153],[null,0.0235]],"po":[0.3,0.4],"note":"Books & Magazines, Movies & TV (except movie NFTs), Music (except vinyl records and music NFTs)."},{"key":"CARDS","name":"Trading cards, comics & CCG","mode":"marginal","ns":[[7500,0.1325],[null,0.0235]],"st":[[2500,0.1235],[null,0.0235]],"po":[0.3,0.4],"note":"Sports and non-sport trading cards, collectible card games, comic books and memorabilia."},{"key":"COINS","name":"Coins & paper money","mode":"marginal","ns":[[7500,0.1325],[null,0.0235]],"st":[[4000,0.09],[null,0.0235]],"po":[0.3,0.4],"note":"Excludes bullion, which has its own line."},{"key":"BULLION","name":"Bullion","mode":"marginal","ns":[[7500,0.136],[null,0.07]],"st":[[1500,0.075],[10000,0.05],[null,0.045]],"po":[0.3,0.4],"note":"Gold, silver and platinum bullion. eBay quotes the upper band as a rate on the amount over $7,500."},{"key":"BAGS","name":"Women's bags & handbags","mode":"marginal","ns":[[2000,0.15],[null,0.09]],"st":[[2000,0.13],[null,0.07]],"po":[0.3,0.4],"note":"Clothing, Shoes & Accessories > Women > Women's Bags & Handbags."},{"key":"JEWELRY","name":"Jewelry (excl. watches)","mode":"whole","ns":[[5000,0.15],[null,0.09]],"st":[[5000,0.13],[null,0.07]],"po":[0.3,0.4],"note":"WHOLE-AMOUNT rule: at $5,000.00 a sale pays 15% of everything ($750.00); at $5,000.01 the whole sale drops to 9% ($450.00)."},{"key":"WATCHES","name":"Watches, parts & accessories","mode":"marginal","ns":[[1000,0.15],[7500,0.065],[null,0.03]],"st":[[1000,0.125],[5000,0.04],[null,0.03]],"po":[0.3,0.4],"note":"Three marginal bands. Different from plain jewelry."},{"key":"SHOES_LT150","name":"Athletic shoes — under $150","mode":"marginal","ns":[[7500,0.136],[null,0.0235]],"st":[[2500,0.127],[null,0.0235]],"po":[0.3,0.4],"note":"Sneakers below $150 use the standard most-categories rate."},{"key":"SHOES_150","name":"Athletic shoes — $150 and over","mode":"whole","ns":[[null,0.08]],"st":[[null,0.07]],"po":[0.0,0.0],"note":"8% of the whole sale and NO per-order fee, provided the listing started at $150 or more (start price, not sale price)."},{"key":"GUITARS","name":"Guitars & basses","mode":"marginal","ns":[[7500,0.067],[null,0.0235]],"st":[[2500,0.067],[null,0.0235]],"po":[0.3,0.4],"note":"Musical Instruments & Gear > Guitars & Basses only."},{"key":"HEAVY","name":"Heavy equipment & commercial","mode":"marginal","ns":[[15000,0.03],[null,0.005]],"st":[[15000,0.025],[null,0.005]],"po":[0.3,0.4],"note":"Heavy Equipment, Commercial Printing Presses, Food Trucks. Listing fee is $20, not $0.35."},{"key":"NFT","name":"NFTs","mode":"whole","ns":[[null,0.05]],"st":[[null,0.05]],"po":[0.3,0.4],"note":"5% of the total amount of the sale."}]};
+const VERIFIED_LONG = '20 November 2026';
+
+const $ = id => document.getElementById(id);
+const money = v => {
+  if (!isFinite(v)) return '—';
+  const s = Math.abs(v).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  return (v < 0 ? '−$' : '$') + s;
+};
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) ? v : 0; };
+const r2 = x => Math.round((x + Number.EPSILON) * 100) / 100;
+
+const cats = RATES.categories;
+const byKey = Object.fromEntries(cats.map(c => [c.key, c]));
+const planInfo = Object.fromEntries(RATES.plans.map(p => [p.name, p]));
+
+function bandsFor(cat, plan) {
+  return planInfo[plan] && planInfo[plan].store ? cat.st : cat.ns;
+}
+
+function fvf(base, cat, plan) {
+  const bands = bandsFor(cat, plan);
+  if (cat.mode === 'whole') {
+    const rate = (bands[0][0] === null || base <= bands[0][0]) ? bands[0][1]
+               : (bands[1] ? bands[1][1] : bands[0][1]);
+    return r2(base * rate);
+  }
+  let total = 0, prev = 0;
+  for (const [limit, rate] of bands) {
+    if (limit === null) { total += Math.max(0, base - prev) * rate; break; }
+    total += Math.max(0, Math.min(base, limit) - prev) * rate;
+    prev = limit;
+    if (base <= limit) break;
+  }
+  return r2(total);
+}
+
+function perOrder(cat, base) {
+  return base <= RATES.perOrderThreshold ? cat.po[0] : cat.po[1];
+}
+
+function computeOrder(opts) {
+  const cat = byKey[opts.cat];
+  const revenue = r2(opts.item + opts.ship + opts.handling);
+  const base = r2(revenue + opts.tax);
+  const feeFvf = fvf(base, cat, opts.plan);
+  const po = r2(perOrder(cat, base));
+  const intl = opts.intl ? r2(base * RATES.intl) : 0;
+  const ad = opts.adRate ? r2(base * opts.adRate) : 0;
+  const fees = r2(feeFvf + po + intl + ad);
+  const cost = r2(opts.qty * (opts.cogs + opts.pack) + opts.label);
+  const profit = r2(revenue - fees - cost);
+  return {cat, revenue, base, feeFvf, po, intl, ad, fees, cost, profit,
+          margin: revenue > 0 ? profit / revenue : 0,
+          feeRate: revenue > 0 ? fees / revenue : 0};
+}
+
+let last = null;
+
+function readInputs() {
+  return {
+    cat: $('cat').value,
+    item: num('item'), ship: num('ship'), handling: num('handling'), tax: num('tax'),
+    cogs: num('cogs'), pack: num('pack'), label: num('label'),
+    qty: Math.max(1, num('qty') || 1),
+    intl: $('intl').checked,
+    adRate: num('ad') / 100,
+    plan: $('plan').value,
+    target: Math.min(95, Math.max(0, num('target'))) / 100
+  };
+}
+
+function solvePrice(opts, target) {
+  // Isolate the item price: everything else is fixed. Bisection because the
+  // fee bands, the $150 shoe line and the $5,000 jewelry cliff are not linear.
+  const fixed = computeOrder({...opts, item: 0});
+  const test = p => {
+    const r = computeOrder({...opts, item: p});
+    return r.margin - target;
+  };
+  let lo = 0, hi = Math.max(fixed.cost * 20 + 1000, 1000);
+  for (let i = 0; i < 80 && test(hi) < 0; i++) hi *= 2;
+  if (test(hi) < 0) return NaN;
+  for (let i = 0; i < 90; i++) {
+    const mid = (lo + hi) / 2;
+    if (test(mid) < 0) lo = mid; else hi = mid;
+  }
+  return Math.ceil(hi * 100) / 100;
+}
+
+function solveAdRate(opts, target) {
+  const test = a => computeOrder({...opts, adRate: a}).margin - target;
+  if (test(0) < 0) return NaN;
+  if (test(1) >= 0) return 1;
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 70; i++) {
+    const mid = (lo + hi) / 2;
+    if (test(mid) >= 0) lo = mid; else hi = mid;
+  }
+  return lo;
+}
+
+function render() {
+  const o = readInputs();
+  const d = computeOrder(o);
+  last = {...d, o};
+
+  $('adLabel').textContent = (o.adRate * 100).toFixed(o.adRate * 100 % 1 ? 1 : 0) + '%';
+  $('keep').textContent = money(d.profit);
+  $('keep').className = 'big' + (d.profit < 0 ? ' neg' : '');
+  $('keepSub').textContent = `on a ${money(d.revenue)} order · ${(d.margin * 100).toFixed(1)}% margin · eBay keeps ${(d.feeRate * 100).toFixed(1)}%`;
+
+  const v = $('verdict');
+  if (d.profit < 0) { v.className = 'pill bad'; v.textContent = 'Loses money'; }
+  else if (d.margin < o.target) { v.className = 'pill warn'; v.textContent = `Below your ${(o.target * 100).toFixed(0)}% target`; }
+  else { v.className = 'pill ok'; v.textContent = `Above your ${(o.target * 100).toFixed(0)}% target`; }
+
+  const base = Math.max(d.revenue, 0.0001);
+  $('bFees').style.width = Math.max(0, d.fees) / base * 100 + '%';
+  $('bCosts').style.width = Math.max(0, d.cost) / base * 100 + '%';
+  $('bProfit').style.width = Math.max(0, d.profit) / base * 100 + '%';
+  $('lgFees').textContent = money(d.fees);
+  $('lgCosts').textContent = money(d.cost);
+  $('lgProfit').textContent = money(d.profit);
+
+  const bands = bandsFor(d.cat, o.plan);
+  const pct = r => (r * 100).toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '%';
+  let feeLabel;
+  if (d.cat.mode === 'whole') {
+    const rate = (bands[0][0] === null || d.base <= bands[0][0]) ? bands[0][1]
+               : (bands[1] ? bands[1][1] : bands[0][1]);
+    feeLabel = `Final value fee ${pct(rate)} of the whole sale`;
+  } else if (d.base <= bands[0][0] || bands[0][0] === null) {
+    feeLabel = `Final value fee ${pct(bands[0][1])}`;
+  } else {
+    feeLabel = `Final value fee ${pct(bands[0][1])} to ${money(bands[0][0])}, then ${pct(bands[1][1])}`;
+  }
+  const rows = [];
+  rows.push(['grp', 'Money in', '']);
+  rows.push(['', `Item price × ${o.qty}`, money(o.item * o.qty)]);
+  if (o.ship) rows.push(['', 'Shipping charged', money(o.ship)]);
+  if (o.handling) rows.push(['', 'Handling charged', money(o.handling)]);
+  rows.push(['sum', 'Revenue (excl. sales tax)', money(d.revenue)]);
+  if (o.tax) rows.push(['note', 'Sales tax collected — not yours', money(o.tax)]);
+  rows.push(['grp', 'eBay fees', '']);
+  rows.push(['', feeLabel, '−' + money(d.feeFvf)]);
+  if (d.po) rows.push(['', `Per-order fee (${d.base > RATES.perOrderThreshold ? 'over' : 'up to'} $10)`, '−' + money(d.po)]);
+  if (d.intl) rows.push(['', 'International fee 1.65%', '−' + money(d.intl)]);
+  if (d.ad) rows.push(['', `Promoted Listings ${(o.adRate * 100).toFixed(1)}%`, '−' + money(d.ad)]);
+  rows.push(['sum', `Total eBay fees · ${(d.feeRate * 100).toFixed(1)}% of revenue`, '−' + money(d.fees)]);
+  rows.push(['grp', 'Your cost', '']);
+  rows.push(['', `What you paid × ${o.qty}`, '−' + money(o.qty * o.cogs)]);
+  if (o.pack) rows.push(['', `Prep & packaging × ${o.qty}`, '−' + money(o.qty * o.pack)]);
+  if (o.label) rows.push(['', 'Shipping label', '−' + money(o.label)]);
+  rows.push(['total', 'What you keep', money(d.profit)]);
+
+  $('lines').innerHTML = rows.map(([kind, label, val]) => {
+    if (kind === 'grp') return `<tr class="grp"><td colspan="2">${label}</td></tr>`;
+    if (kind === 'note') return `<tr><td style="color:var(--muted);font-size:12.5px">${label}</td><td style="color:var(--muted)">${val}</td></tr>`;
+    return `<tr class="${kind}"><td>${label}</td><td>${val}</td></tr>`;
+  }).join('');
+
+  const price = solvePrice(o, o.target);
+  $('tgtLabel').textContent = (o.target * 100).toFixed(0) + '%';
+  $('priceForTarget').textContent = isFinite(price) && price > 0 ? money(price) : '—';
+  $('priceForTargetNote').textContent = isFinite(price) && price > 0
+    ? `for the item (${money(o.ship)} shipping on top).`
+    : 'no price clears that target once fees and costs are counted.';
+
+  const maxAd = solveAdRate({...o, item: o.item}, o.target);
+  $('maxAd').textContent = isFinite(maxAd) ? (Math.floor(maxAd * 1000) / 10).toFixed(1) + '%' : '—';
+
+  // Store comparison
+  const noStore = computeOrder({...o, plan: 'None'});
+  const saving = r2(noStore.fees - d.fees);
+  const plan = planInfo[o.plan] || planInfo['None'];
+  if (!plan.store) {
+    $('storeBox').innerHTML = `No Store selected. A <b>Basic Store ($27.95/mo)</b> would cut this order's fees by <b>${money(r2(noStore.fees - computeOrder({...o, plan: 'Basic'}).fees))}</b>.`;
+  } else if (saving <= 0) {
+    $('storeBox').innerHTML = `<b>${o.plan}</b> does not lower this order's fee — its value here is listings and tools.`;
+  } else {
+    const monthly = plan.monthly || plan.yearly || 0;
+    const breakEven = monthly > 0 ? Math.ceil(monthly / saving) : 0;
+    $('storeBox').innerHTML = `<b>${o.plan} Store</b> saves <b>${money(saving)}</b> on this order. At $${monthly.toFixed(2)}/month it pays for itself on <b>${breakEven}</b> ${breakEven === 1 ? 'order' : 'orders'} like this a month.`;
+  }
+
+  $('catHint').textContent = d.cat.note;
+  $('planHint').textContent = plan.store
+    ? `${o.plan} uses the Store rate card: lower percentages, more free listings.`
+    : 'No Store rate card — the standard rates apply.';
+
+  window.__last = last;
+}
+
+/* init */
+const catSel = $('cat');
+cats.forEach(c => {
+  const opt = document.createElement('option');
+  opt.value = c.key; opt.textContent = c.name;
+  catSel.appendChild(opt);
+});
+catSel.value = 'MOST';
+
+const planSel = $('plan');
+RATES.plans.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p.name;
+  opt.textContent = p.monthly ? `${p.name} — $${p.monthly.toFixed(2)}/mo` : p.name;
+  planSel.appendChild(opt);
+});
+planSel.value = 'None';
+
+document.querySelectorAll('input,select').forEach(el => {
+  el.addEventListener('input', render);
+  el.addEventListener('change', render);
+});
+
+$('themeBtn').addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  $('themeBtn').textContent = next === 'dark' ? 'Light' : 'Dark';
+  try { localStorage.setItem('sw-theme', next); } catch (e) {}
+});
+try {
+  if (localStorage.getItem('sw-theme') === 'dark') {
+    document.documentElement.dataset.theme = 'dark';
+    $('themeBtn').textContent = 'Light';
+  }
+} catch (e) {}
+
+$('copyBtn').addEventListener('click', async () => {
+  const d = window.__last;
+  if (!d) return;
+  const lines = [...document.querySelectorAll('#lines tr')].map(tr => {
+    const tds = tr.querySelectorAll('td');
+    return tds.length === 2 ? `${tds[0].textContent}: ${tds[1].textContent}` : tds[0].textContent;
+  });
+  const txt = `eBay order — ${d.cat.name}\n` + lines.join('\n') +
+    `\nMargin: ${(d.margin * 100).toFixed(1)}%  ·  Fee rate: ${(d.feeRate * 100).toFixed(1)}%` +
+    `\n— calculated with the free eBay Fee & Profit Calculator (US rates ${VERIFIED_LONG})`;
+  try {
+    await navigator.clipboard.writeText(txt);
+    $('copyBtn').textContent = 'Copied';
+    setTimeout(() => $('copyBtn').textContent = 'Copy this breakdown', 1600);
+  } catch (e) { $('copyBtn').textContent = 'Copy failed'; }
+});
+
+render();
+
+/* test hook: lets the build verify the page's maths against the Python engine */
+window.__calc = (o) => computeOrder({cat: 'MOST', handling: 0, tax: 0, qty: 1,
+  cogs: 0, pack: 0, label: 0, intl: false, adRate: 0, plan: 'None', target: 0.3, ...o});
+</script>
+</body>
+</html>
